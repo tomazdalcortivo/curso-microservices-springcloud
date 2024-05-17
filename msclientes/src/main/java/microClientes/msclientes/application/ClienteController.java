@@ -1,6 +1,7 @@
 package microClientes.msclientes.application;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import microClientes.msclientes.domain.Cliente;
 import microClientes.msclientes.representation.ClienteSaveRequest;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("clientes")
@@ -18,6 +20,7 @@ public class ClienteController {
 
     @GetMapping
     public String status() {
+        log.info("Obtendo o status do microservice do cliente");
         return "ok";
     }
 
