@@ -1,6 +1,6 @@
 spring:
   application:
-    name: mcscartoes
+    name: mscartoes
 server:
   port: 0
 
