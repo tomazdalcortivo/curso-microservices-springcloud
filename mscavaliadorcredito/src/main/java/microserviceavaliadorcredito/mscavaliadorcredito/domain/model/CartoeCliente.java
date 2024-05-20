@@ -2,11 +2,13 @@ package microserviceavaliadorcredito.mscavaliadorcredito.domain.model;
 
 import lombok.Data;
 
-@Data
-public class DadosCliente {
+import java.math.BigDecimal;
 
-    private Long id;
+@Data
+public class CartoeCliente {
+
     private String nome;
-    private Integer idade;
+    private String bandeira;
+    private BigDecimal limiteLiberado;
 
 }

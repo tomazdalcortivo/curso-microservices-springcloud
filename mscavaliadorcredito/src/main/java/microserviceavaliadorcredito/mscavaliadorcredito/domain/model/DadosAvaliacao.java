@@ -3,10 +3,8 @@ package microserviceavaliadorcredito.mscavaliadorcredito.domain.model;
 import lombok.Data;
 
 @Data
-public class DadosCliente {
+public class DadosAvaliacao {
 
-    private Long id;
-    private String nome;
-    private Integer idade;
-
+    private String cpf;
+    private Long renda;
 }

@@ -14,6 +14,6 @@ import java.util.List;
 public class SituacaoCliente {
 
     private DadosCliente cliente;
-    private List<CartoesCliente> cartoes;
+    private List<CartoeCliente> cartoes;
 
 }

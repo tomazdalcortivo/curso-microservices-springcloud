@@ -1,6 +1,7 @@
 package microserviceavaliadorcredito.mscavaliadorcredito.infra.clients;
 
-import microserviceavaliadorcredito.mscavaliadorcredito.domain.model.CartoesCliente;
+import microserviceavaliadorcredito.mscavaliadorcredito.domain.model.Cartao;
+import microserviceavaliadorcredito.mscavaliadorcredito.domain.model.CartoeCliente;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,8 @@ import java.util.List;
 public interface CartoesResourceClient {
 
     @GetMapping(params = "cpf")
-    ResponseEntity<List<CartoesCliente>> getCartoesPorCliente(@RequestParam("cpf") String cpf);
+    ResponseEntity<List<CartoeCliente>> getCartoesPorCliente(@RequestParam("cpf") String cpf);
 
+    @GetMapping(params = "renda")
+    public ResponseEntity<List<Cartao>> getCartoesRendaAte(@RequestParam("renda") Long renda);
 }
