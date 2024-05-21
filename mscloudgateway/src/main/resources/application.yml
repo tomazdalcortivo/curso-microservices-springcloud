@@ -8,6 +8,13 @@ spring:
           enabled: true
           lower-case-service-id: true
           lower-case-route-id: true
+  security:
+    auth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/mscourserealm
+
+
 server:
   port: 8080
 
