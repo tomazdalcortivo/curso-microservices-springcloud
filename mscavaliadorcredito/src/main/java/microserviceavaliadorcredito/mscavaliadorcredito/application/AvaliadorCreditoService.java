@@ -5,16 +5,18 @@ import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import microserviceavaliadorcredito.mscavaliadorcredito.application.ex.DadosClienteNotFoundException;
 import microserviceavaliadorcredito.mscavaliadorcredito.application.ex.ErroComunicaoMicroserviceException;
+import microserviceavaliadorcredito.mscavaliadorcredito.application.ex.ErroSolicitacaoCartaoException;
 import microserviceavaliadorcredito.mscavaliadorcredito.domain.model.*;
 import microserviceavaliadorcredito.mscavaliadorcredito.infra.clients.CartoesResourceClient;
 import microserviceavaliadorcredito.mscavaliadorcredito.infra.clients.ClienteResourceClient;
+import microserviceavaliadorcredito.mscavaliadorcredito.infra.mqueue.SolicitacaoEmissaoCartaoPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,8 @@ public class AvaliadorCreditoService {
     private final ClienteResourceClient clientClient;
 
     private final CartoesResourceClient cartoesClient;
+
+    private final SolicitacaoEmissaoCartaoPublisher emissaoCartaoPublisher;
 
     public SituacaoCliente obterSituacaoCliente(String cpf) throws DadosClienteNotFoundException, ErroComunicaoMicroserviceException {
         // obter dados do cliente - MSClientes
@@ -51,7 +55,7 @@ public class AvaliadorCreditoService {
             ResponseEntity<List<Cartao>> CartoesResponse = cartoesClient.getCartoesRendaAte(renda);
 
             List<Cartao> cartaos = CartoesResponse.getBody();
-            var listaCartoesAprovados  = cartaos.stream().map(cartao -> {
+            var listaCartoesAprovados = cartaos.stream().map(cartao -> {
 
                 DadosCliente dadosCliente = dadosClienteResponse.getBody();
 
@@ -80,4 +84,13 @@ public class AvaliadorCreditoService {
         }
     }
 
+    public ProtocoloSolicitacaoCartao solicitarEmissaoCartao(DadosSolicitacaoEmissaoCartao dados) {
+        try {
+            emissaoCartaoPublisher.solicitarCartao(dados);
+            var protocolo = UUID.randomUUID().toString();
+            return new ProtocoloSolicitacaoCartao(protocolo);
+        } catch (Exception e) {
+            throw new ErroSolicitacaoCartaoException(e.getMessage());
+        }
+    }
 }

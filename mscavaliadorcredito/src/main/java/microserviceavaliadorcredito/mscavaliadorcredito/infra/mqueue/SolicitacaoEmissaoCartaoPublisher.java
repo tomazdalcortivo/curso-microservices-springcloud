@@ -29,4 +29,5 @@ public class SolicitacaoEmissaoCartaoPublisher {
         var json = mapper.writeValueAsString(dados);
         return json;
     }
+
 }
